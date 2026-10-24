@@ -1,5 +1,5 @@
 CREATE TABLE kategoria (
-	az INT AUTO_INCREMENT PRIMARY KEY,
+	kategoriaid INT AUTO_INCREMENT PRIMARY KEY,
     nev VARCHAR(100),
     ar INT NOT NULL
 );
@@ -8,7 +8,7 @@ INSERT INTO kategoria(nev,ar) VALUES ('főnemes',950);
 INSERT INTO kategoria(nev,ar) VALUES ('király',1250);
 INSERT INTO kategoria(nev,ar) VALUES ('lovag',1150);
 CREATE TABLE pizza (
-az INT AUTO_INCREMENT PRIMARY KEY,
+	pizzaid INT AUTO_INCREMENT PRIMARY KEY,
     nev VARCHAR(100),
     kategorianev VARCHAR(100),
     vegetarianus BOOLEAN,
@@ -89,7 +89,7 @@ INSERT INTO pizza(nev,kategorianev,vegetarianus) VALUES ('Tüzes halál','királ
 INSERT INTO pizza(nev,kategorianev,vegetarianus) VALUES ('Vega','lovag',1);
 INSERT INTO pizza(nev,kategorianev,vegetarianus) VALUES ('Zöldike','főnemes',1);
 CREATE TABLE rendeles (
-    az INT AUTO_INCREMENT PRIMARY KEY,
+    rendelesid INT AUTO_INCREMENT PRIMARY KEY,
     pizzanev VARCHAR(100),
     darab INT NOT NULL,
     felvetel DATETIME,
