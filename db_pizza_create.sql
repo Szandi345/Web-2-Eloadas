@@ -12,7 +12,7 @@ CREATE TABLE pizza (
     nev VARCHAR(100),
     kategorianev VARCHAR(100),
     vegetarianus BOOLEAN,
-    FOREIGN KEY (kategorianev) REFERENCES kategoria(nev)
+    FOREIGN KEY (kategorianev) REFERENCES kategoria(kategoriaid)
 );
 INSERT INTO pizza(nev,kategorianev,vegetarianus) VALUES ('Áfonyás','király',0);
 INSERT INTO pizza(nev,kategorianev,vegetarianus) VALUES ('Babos','lovag',0);
