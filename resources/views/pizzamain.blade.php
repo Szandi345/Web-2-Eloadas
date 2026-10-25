@@ -40,7 +40,7 @@
 											a Pöpec Pizza Pizzéria</h1>
 											<p>Kecskemét első számú pizzériája</p>
 										</header>
-										<p>2024-i nyitásunk óta több mint 50,000 vendéget kiszolgáltunk az autentikus, nápolyi stílusú pizzáinkal. Te is megkóstolod?</p>
+										<p>2024-i nyitásunk óta több mint 20,000 vendéget kiszolgáltunk az autentikus, nápolyi stílusú pizzáinkal. Te is megkóstolod?</p>
 										<ul class="actions">
 											<li><a href="#" class="button big">RENDELJ MOST!</a></li>
 										</ul>
@@ -51,7 +51,7 @@
 								</section>
 
 							<!-- Section -->
-								<section>
+								<!-- <section>
 									<header class="major">
 										<h2>Erat lacinia</h2>
 									</header>
@@ -85,64 +85,64 @@
 											</div>
 										</article>
 									</div>
-								</section>
+								</section> -->
 
 							<!-- Section -->
-								<section>
+								 <section>
 									<header class="major">
-										<h2>Ipsum sed dolor</h2>
+										<h2>Pizzáink</h2>
 									</header>
 									<div class="posts">
 										<article>
 											<a href="#" class="image"><img src="images/pic01.jpg" alt="" /></a>
-											<h3>Interdum aenean</h3>
-											<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
-											<ul class="actions">
+											<h3>Sajtos</h3>
+											<p>Paradicsomos alap, sajt</p>
+	<!-- 										<ul class="actions">
 												<li><a href="#" class="button">More</a></li>
-											</ul>
+											</ul> -->
 										</article>
 										<article>
 											<a href="#" class="image"><img src="images/pic02.jpg" alt="" /></a>
-											<h3>Nulla amet dolore</h3>
-											<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
-											<ul class="actions">
+											<h3>Szalámis</h3>
+											<p>Paradicsomos alap, sajt, szalámi</p>
+<!-- 											<ul class="actions">
 												<li><a href="#" class="button">More</a></li>
-											</ul>
+											</ul> -->
 										</article>
 										<article>
 											<a href="#" class="image"><img src="images/pic03.jpg" alt="" /></a>
-											<h3>Tempus ullamcorper</h3>
-											<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
-											<ul class="actions">
+											<h3>Csabesz</h3>
+											<p>Paradicsomos alap, sajt, csirke, hagyma</p>
+<!-- 											<ul class="actions">
 												<li><a href="#" class="button">More</a></li>
-											</ul>
+											</ul> -->
 										</article>
 										<article>
 											<a href="#" class="image"><img src="images/pic04.jpg" alt="" /></a>
-											<h3>Sed etiam facilis</h3>
-											<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
-											<ul class="actions">
+											<h3>Barbecue chicken</h3>
+											<p>Barbecue szósz alap, sajt, csirke</p>
+<!-- 											<ul class="actions">
 												<li><a href="#" class="button">More</a></li>
-											</ul>
+											</ul> -->
 										</article>
 										<article>
 											<a href="#" class="image"><img src="images/pic05.jpg" alt="" /></a>
-											<h3>Feugiat lorem aenean</h3>
-											<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
-											<ul class="actions">
+											<h3>Gyros pizza</h3>
+											<p>Tejfölös alap, gyroshússal</p>
+<!-- 											<ul class="actions">
 												<li><a href="#" class="button">More</a></li>
-											</ul>
+											</ul> -->
 										</article>
 										<article>
 											<a href="#" class="image"><img src="images/pic06.jpg" alt="" /></a>
-											<h3>Amet varius aliquam</h3>
-											<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
-											<ul class="actions">
+											<h3>Főnök kedvence</h3>
+											<p>Tejfölös alap, sajt, tojás!</p>
+<!-- 											<ul class="actions">
 												<li><a href="#" class="button">More</a></li>
-											</ul>
+											</ul> -->
 										</article>
 									</div>
-								</section>
+								</section> 
 
 						</div>
 					</div>
@@ -200,7 +200,7 @@
                                             <li><a href="{{ url('/crud') }}">CRUD menü</a></li>
                                          @endif
                                         @endauth
-								<!-- 		<li>
+	                                    <li>
 											<span class="opener">Another Submenu</span>
 											<ul>
 												<li><a href="#">Lorem Dolor</a></li>
@@ -209,14 +209,11 @@
 												<li><a href="#">Feugiat Veroeros</a></li>
 											</ul>
 										</li> -->
-										<li><a href="#">Maximus Erat</a></li>
-										<li><a href="#">Sapien Mauris</a></li>
-										<li><a href="#">Amet Lacinia</a></li>
 									</ul>
 								</nav>
 
 							<!-- Section -->
-								<section>
+								<!-- <section>
 									<header class="major">
 										<h2>Ante interdum</h2>
 									</header>
@@ -237,25 +234,25 @@
 									<ul class="actions">
 										<li><a href="#" class="button">More</a></li>
 									</ul>
-								</section>
+								</section> -->
 
 							<!-- Section -->
 								<section>
 									<header class="major">
-										<h2>Get in touch</h2>
+										<h2>Adataink</h2>
 									</header>
-									<p>Sed varius enim lorem ullamcorper dolore aliquam aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin sed aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
+									<!-- <p>Sed varius enim lorem ullamcorper dolore aliquam aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin sed aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p> -->
 									<ul class="contact">
-										<li class="icon solid fa-envelope"><a href="#">information@untitled.tld</a></li>
-										<li class="icon solid fa-phone">(000) 000-0000</li>
-										<li class="icon solid fa-home">1234 Somewhere Road #8254<br />
-										Nashville, TN 00000-0000</li>
+										<li class="icon solid fa-envelope"><a href="#">popecpizza@gmail.com</a></li>
+										<li class="icon solid fa-phone">+36 01 123 4567</li>
+										<li class="icon solid fa-home">Pizza utca 23.<br />
+										Kecskemét, 6000</li>
 									</ul>
 								</section>
 
 							<!-- Footer -->
 								<footer id="footer">
-									<p class="copyright">&copy; Untitled. All rights reserved. Demo Images: <a href="https://unsplash.com">Unsplash</a>. Design: <a href="https://html5up.net">HTML5 UP</a>.</p>
+									<p class="copyright">&copy; Untitled. All rights reserved. Demo Images: <a href="https://unsplash.com">Unsplash</a>. Design: <a href="https://html5up.net">HTML5 UP</a>. <br> Projektfeladatot készítette: <br> Laucsik Dominik (DILLSZ) <br> Sztroka Alexandra Laura (G34R4F)</p>
 								</footer>
 
 						</div>
