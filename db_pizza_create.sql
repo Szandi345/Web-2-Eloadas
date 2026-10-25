@@ -90,11 +90,11 @@ INSERT INTO pizza(nev,kategorianev,vegetarianus) VALUES ('Vega','lovag',1);
 INSERT INTO pizza(nev,kategorianev,vegetarianus) VALUES ('Zöldike','főnemes',1);
 CREATE TABLE rendeles (
     rendelesid INT AUTO_INCREMENT PRIMARY KEY,
-    pizzanev VARCHAR(100),
+    pizzaid INT(100),
     darab INT NOT NULL,
     felvetel DATETIME,
     kiszallitas DATETIME,
-    FOREIGN KEY (pizzanev) REFERENCES pizza(nev)
+    FOREIGN KEY (pizzaid) REFERENCES pizza(pizzaid)
 );
 INSERT INTO rendeles(pizzanev,darab,felvetel,kiszallitas) VALUES ('Popey',2,'2005.11.12 11:21:00','2005.11.12 12:11:00');
 INSERT INTO rendeles(pizzanev,darab,felvetel,kiszallitas) VALUES ('Kagylós',1,'2005.11.12 11:41:00','2005.11.12 12:26:00');
