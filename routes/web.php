@@ -17,4 +17,7 @@ require __DIR__.'/auth.php';
 
 Route::get('exercise1', function () { return view('view1'); });
 Route::get('introduction', function () { return view('introduction'); });
+Route::get('kategoriaread', 'App\Http\Controllers\KategoriaController@read');
+Route::get('pizzaread', 'App\Http\Controllers\PizzaController@read');
+Route::get('rendelesread', 'App\Http\Controllers\RendelesController@read');
 

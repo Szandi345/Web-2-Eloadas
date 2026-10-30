@@ -173,7 +173,14 @@
 									</header>
 									<ul>
 										<li><a href="/">Főoldal</a></li>
-										<li><a href="adatbazis">Adatbázis</a></li>
+										<li>
+											<span class="opener">Adatbázis</span>
+											<ul>
+												<li><a href="kategoriaread">Kategória tábla</a></li>
+												<li><a href="pizzaread">Pizza tábla</a></li>
+												<li><a href="rendelesread">Rendelés tábla</a></li>
+											</ul>
+										</li>
 										<li><a href="kapcsolat">Kapcsolat</a></li>
 										<!-- <li>
 											<span class="opener">Submenu</span>
