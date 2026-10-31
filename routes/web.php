@@ -3,6 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Middleware\Auth2;
+use App\Http\Controllers\KapcsolatController;
+use App\Http\Controllers\UzenetController;
+use App\Http\Controllers\DiagramController;
 
 Route::get('/', function () { return view('pizzamain'); });
 
@@ -20,4 +23,12 @@ Route::get('introduction', function () { return view('introduction'); });
 Route::get('kategoriaread', 'App\Http\Controllers\KategoriaController@read');
 Route::get('pizzaread', 'App\Http\Controllers\PizzaController@read');
 Route::get('rendelesread', 'App\Http\Controllers\RendelesController@read');
-
+Route::get('/kapcsolat', [KapcsolatController::class, 'index'])
+    ->name('kapcsolat');
+Route::post('/kapcsolat', [KapcsolatController::class, 'kuldes'])
+    ->name('kapcsolat.kuldes');
+Route::get('/uzenetek', [UzenetController::class, 'index'])
+    ->middleware('auth')
+    ->name('uzenetek');
+Route::get('/diagram', [DiagramController::class, 'index'])
+    ->name('diagram');
