@@ -36,6 +36,17 @@ Route::get('/diagram', [DiagramController::class, 'index'])
     ->name('diagram');
 
 // CRUD - Adminisztrátori hozzáférés
-Route::get('/crud', [PizzaCrudController::class, 'index'])
-    ->middleware(['auth', 'admin'])
-    ->name('crud.index');
+Route::middleware(['auth', 'admin'])->group(function () {
+
+    // Pizzák listázása
+    Route::get('/crud', [PizzaCrudController::class, 'index'])
+        ->name('crud.index');
+
+    // Új pizza hozzáadása - űrlap
+    Route::get('/crud/create', [PizzaCrudController::class, 'create'])
+        ->name('crud.create');
+        
+    // Új pizza mentése
+    Route::post('/crud', [PizzaCrudController::class, 'store'])
+        ->name('crud.store');
+});

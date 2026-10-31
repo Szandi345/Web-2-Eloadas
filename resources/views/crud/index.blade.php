@@ -25,7 +25,11 @@
                 <header class="major">
                     <h2>🍕 Pizzák kezelése (CRUD)</h2>
                 </header>
-
+                @if (session('success'))
+                    <div style="color: green; font-weight: bold; margin-bottom: 20px;">
+                        {{ session('success') }}
+                    </div>
+                @endif
                 <p>
                     Ezen az oldalon az adminisztrátor kezelheti
                     az adatbázisban található pizzákat.
