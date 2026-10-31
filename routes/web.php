@@ -6,6 +6,8 @@ use App\Http\Middleware\Auth2;
 use App\Http\Controllers\KapcsolatController;
 use App\Http\Controllers\UzenetController;
 use App\Http\Controllers\DiagramController;
+use App\Http\Controllers\PizzaCrudController;
+use Illuminate\Http\Request;
 
 Route::get('/', function () { return view('pizzamain'); });
 
@@ -32,3 +34,8 @@ Route::get('/uzenetek', [UzenetController::class, 'index'])
     ->name('uzenetek');
 Route::get('/diagram', [DiagramController::class, 'index'])
     ->name('diagram');
+
+// CRUD - Adminisztrátori hozzáférés
+Route::get('/crud', [PizzaCrudController::class, 'index'])
+    ->middleware(['auth', 'admin'])
+    ->name('crud.index');
