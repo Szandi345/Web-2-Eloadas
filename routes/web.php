@@ -7,6 +7,7 @@ use App\Http\Controllers\KapcsolatController;
 use App\Http\Controllers\UzenetController;
 use App\Http\Controllers\DiagramController;
 use App\Http\Controllers\PizzaCrudController;
+use App\Http\Controllers\RendelesController;
 use Illuminate\Http\Request;
 
 Route::get('/', function () { return view('pizzamain'); })->name('home');
@@ -37,6 +38,22 @@ Route::get('/uzenetek', [UzenetController::class, 'index'])
     ->name('uzenetek');
 Route::get('/diagram', [DiagramController::class, 'index'])
     ->name('diagram');
+    
+// Rendelési funkciók bejelentkezett felhasználóknak
+Route::middleware(['auth'])->group(function () {
+
+    // Rendelési űrlap megjelenítése
+    Route::get('/rendeles/create', [RendelesController::class, 'create'])
+        ->name('rendeles.create');
+
+    // Rendelés mentése
+    Route::post('/rendeles', [RendelesController::class, 'store'])
+        ->name('rendeles.store');
+
+    // Leadott rendelés visszaigazolása
+    Route::get('/rendeles/{id}', [RendelesController::class, 'show'])
+        ->whereNumber('id')
+        ->name('rendeles.show');});
 
 // CRUD - Adminisztrátori hozzáférés
 Route::middleware(['auth', 'admin'])->group(function () {
@@ -57,9 +74,14 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/crud/{id}/edit', [PizzaCrudController::class, 'edit'])
         ->whereNumber('id')
         ->name('crud.edit');
-        
+
     // Pizza módosításának mentése
     Route::put('/crud/{id}', [PizzaCrudController::class, 'update'])
         ->whereNumber('id')
         ->name('crud.update');
+
+    // Pizza törlése
+    Route::delete('/crud/{id}', [PizzaCrudController::class, 'destroy'])
+        ->whereNumber('id')
+        ->name('crud.destroy');
 });

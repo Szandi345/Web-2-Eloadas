@@ -30,6 +30,14 @@
                         {{ session('success') }}
                     </div>
                 @endif
+                @if (session('error'))
+                    <div style="
+                        background-color: #f8d7da; color: red; padding: 15px, margin-bottom: 20px; border: 1px solid #f5c6cb; border-radius: 5px;
+                    ">
+                        <strong>Hiba!</strong>
+                        {{ session('error') }}
+                    </div>
+                @endif
                 <p>
                     Ezen az oldalon az adminisztrátor kezelheti
                     az adatbázisban található pizzákat.
@@ -56,10 +64,25 @@
                                      {{ $pizza->vegetarianus ? 'Igen' : 'Nem' }}
                                 </td>
                                 <td>
+                                    <!-- Szerkesztés gomb -->
                                     <a href="{{ route('crud.edit', $pizza->pizzaid) }}"
                                     class="button small">
                                         Szerkesztés
                                     </a>
+
+                                    <!-- Törlés gomb -->
+                                    <form action="{{ route('crud.destroy', $pizza->pizzaid) }}"
+                                        method="POST"
+                                        style="display: inline-block;"
+                                        onsubmit="return confirm('Biztosan törölni szeretnéd ezt a pizzát?');">
+
+                                        @csrf
+                                        @method('DELETE')
+
+                                        <button type="submit" class="button small">
+                                            Törlés
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
                         @empty

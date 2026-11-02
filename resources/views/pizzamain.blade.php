@@ -203,7 +203,7 @@
                                         <li><a href="diagram">Diagram</a></li>
                                         @if (Auth::check())
                                          @if (Auth::User()->role==1)
-										    <li><a href="crud">CRUD Menü</a></li>   
+										    <li><a href="crud">Pizzák kezelése (CRUD)</a></li>   
                                          @endif
                                         @endif
 								<!-- 		<li>

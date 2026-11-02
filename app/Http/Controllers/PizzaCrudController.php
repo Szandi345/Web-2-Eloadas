@@ -30,31 +30,31 @@ class PizzaCrudController extends Controller
         return view('crud.create', compact('kategoriak'));
     }
     public function store(Request $request){
-    // Beérkező adatok ellenőrzése
-    $adatok = $request->validate([
-        'nev' => 'required|string|max:255',
-        'kategoriaid' => 'required|integer|exists:kategoria,kategoriaid',
-        'vegetarianus' => 'required|boolean',
-    ], [
-        'nev.required' => 'A pizza nevét kötelező megadni!',
-        'kategoriaid.required' => 'Válassz kategóriát!',
-        'kategoriaid.exists' => 'A kiválasztott kategória nem létezik!',
-        'vegetarianus.required' => 'Add meg, hogy vegetáriánus-e a pizza!',
-    ]);
+        // Beérkező adatok ellenőrzése
+        $adatok = $request->validate([
+            'nev' => 'required|string|max:255',
+            'kategoriaid' => 'required|integer|exists:kategoria,kategoriaid',
+            'vegetarianus' => 'required|boolean',
+        ], [
+            'nev.required' => 'A pizza nevét kötelező megadni!',
+            'kategoriaid.required' => 'Válassz kategóriát!',
+            'kategoriaid.exists' => 'A kiválasztott kategória nem létezik!',
+            'vegetarianus.required' => 'Add meg, hogy vegetáriánus-e a pizza!',
+        ]);
 
-    // Új pizza beszúrása az adatbázisba
-    DB::table('pizza')->insert([
-        'nev' => $adatok['nev'],
-        'kategoriaid' => $adatok['kategoriaid'],
-        'vegetarianus' => $adatok['vegetarianus'],
-        'created_at' => now(),
-        'updated_at' => now(),
-    ]);
+        // Új pizza beszúrása az adatbázisba
+        DB::table('pizza')->insert([
+            'nev' => $adatok['nev'],
+            'kategoriaid' => $adatok['kategoriaid'],
+            'vegetarianus' => $adatok['vegetarianus'],
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
 
-    // Visszairányítás a CRUD-listához
-    return redirect()
-        ->route('crud.index')
-        ->with('success', 'Az új pizza sikeresen hozzáadva!');}
+        // Visszairányítás a CRUD-listához
+        return redirect()
+            ->route('crud.index')
+            ->with('success', 'Az új pizza sikeresen hozzáadva!');}
 
     // Pizza szerkesztése - űrlap megjelenítése
     public function edit($id){
@@ -74,42 +74,79 @@ class PizzaCrudController extends Controller
 
         // Szerkesztési oldal megjelenítése
         return view('crud.edit', compact('pizza', 'kategoriak'));}
-        
+
     // Pizza adatainak módosítása
     public function update(Request $request, $id){
-    // Ellenőrizzük, hogy létezik-e a pizza
-    $pizza = DB::table('pizza')
-        ->where('pizzaid', $id)
-        ->first();
 
-    if (!$pizza) {
-        abort(404, 'A keresett pizza nem található!');
-    }
+        // Ellenőrizzük, hogy létezik-e a pizza
+        $pizza = DB::table('pizza')
+            ->where('pizzaid', $id)
+            ->first();
 
-    // Beérkező adatok ellenőrzése
-    $adatok = $request->validate([
-        'nev' => 'required|string|max:255',
-        'kategoriaid' => 'required|integer|exists:kategoria,kategoriaid',
-        'vegetarianus' => 'required|boolean',
-    ], [
-        'nev.required' => 'A pizza nevét kötelező megadni!',
-        'kategoriaid.required' => 'Válassz kategóriát!',
-        'kategoriaid.exists' => 'A kiválasztott kategória nem létezik!',
-        'vegetarianus.required' => 'Add meg, hogy vegetáriánus-e a pizza!',
-    ]);
+        if (!$pizza) {
+            abort(404, 'A keresett pizza nem található!');
+        }
 
-    // Pizza adatainak frissítése az adatbázisban
-    DB::table('pizza')
-        ->where('pizzaid', $id)
-        ->update([
-            'nev' => $adatok['nev'],
-            'kategoriaid' => $adatok['kategoriaid'],
-            'vegetarianus' => $adatok['vegetarianus'],
-            'updated_at' => now(),
+        // Beérkező adatok ellenőrzése
+        $adatok = $request->validate([
+            'nev' => 'required|string|max:255',
+            'kategoriaid' => 'required|integer|exists:kategoria,kategoriaid',
+            'vegetarianus' => 'required|boolean',
+        ], [
+            'nev.required' => 'A pizza nevét kötelező megadni!',
+            'kategoriaid.required' => 'Válassz kategóriát!',
+            'kategoriaid.exists' => 'A kiválasztott kategória nem létezik!',
+            'vegetarianus.required' => 'Add meg, hogy vegetáriánus-e a pizza!',
         ]);
 
-    // Visszairányítás a CRUD-listához
-    return redirect()
-        ->route('crud.index')
-        ->with('success', 'A pizza sikeresen módosítva!');}
+        // Pizza adatainak frissítése az adatbázisban
+        DB::table('pizza')
+            ->where('pizzaid', $id)
+            ->update([
+                'nev' => $adatok['nev'],
+                'kategoriaid' => $adatok['kategoriaid'],
+                'vegetarianus' => $adatok['vegetarianus'],
+                'updated_at' => now(),
+            ]);
+
+        // Visszairányítás a CRUD-listához
+        return redirect()
+            ->route('crud.index')
+            ->with('success', 'A pizza sikeresen módosítva!');}
+
+    // Pizza törlése
+    // Pizza biztonságos törlése
+    public function destroy($id){
+        
+        // Megkeressük a pizzát
+        $pizza = DB::table('pizza')
+            ->where('pizzaid', $id)
+            ->first();
+
+        // Ha nem létezik, 404-es hiba
+        if (!$pizza) {
+            abort(404, 'A keresett pizza nem található!');
+        }
+
+        // Ellenőrizzük, hogy tartozik-e rendelés a pizzához
+        $vanRendeles = DB::table('rendeles')
+            ->where('pizzaid', $id)
+            ->exists();
+
+        // Ha van rendelés, nem engedjük a törlést
+        if ($vanRendeles) {
+            return redirect()
+                ->route('crud.index')
+                ->with('error', 'Ez a pizza nem törölhető, mert már tartozik hozzá rendelés!');
+        }
+
+        // Ha nincs hozzá rendelés, törölhető
+        DB::table('pizza')
+            ->where('pizzaid', $id)
+            ->delete();
+
+        // Sikeres törlés
+        return redirect()
+            ->route('crud.index')
+            ->with('success', 'A pizza sikeresen törölve!');}
 }
