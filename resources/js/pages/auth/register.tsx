@@ -91,6 +91,10 @@ export default function Register() {
                             <TextLink href={login()} tabIndex={6}>
                                 Bejelentkezés
                             </TextLink>
+                            <TextLink href="/" tabIndex={5}>
+                                <br></br><br></br>
+                                Vagy folytatás vendégként
+                            </TextLink>
                         </div>
                     </>
                 )}

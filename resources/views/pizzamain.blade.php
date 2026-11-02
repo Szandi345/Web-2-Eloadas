@@ -9,7 +9,7 @@
 		<title>Pöpec Pizza</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="stylesheet" href="{{ asset('assets/css/main.css') }}" />
 	</head>
 	<body class="is-preload">
 
@@ -153,12 +153,18 @@
                             <a href="{{ route('register') }}" class="button big" style="width: 200px;">
                                 Regisztráció
                             </a>
-
                         <br>
-
-                            <a href="{{ route('login') }}" class="button big" style="width: 200px;">
+						@if (Auth::check())
+						    <form method="POST" action="{{ route('logout') }}" >
+								@csrf
+                            	<button type="submit" class="button big" style="width: 200px;">Kijelentkezés</button>
+							</form>
+						@else
+							<a href="{{ route('login') }}" class="button big" style="width: 200px;">
                                 Bejelentkezés
                             </a>
+						@endif
+
 							<!-- Search -->
 <!-- 								<section id="search" class="alt">
 									<form method="post" action="#">
@@ -191,7 +197,7 @@
 												<li><a href="#">Feugiat Veroeros</a></li>
 											</ul>
 										</li> -->
-                                         @if (Auth::check())
+                                        @if (Auth::check())
 										    <li><a href="uzenetek">Üzenetek</a></li>
                                         @endif                                 
                                         <li><a href="diagram">Diagram</a></li>

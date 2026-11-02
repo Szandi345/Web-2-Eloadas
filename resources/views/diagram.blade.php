@@ -48,6 +48,24 @@
         </div>
     </div>
 
+    				<!-- Sidebar -->
+					<div id="sidebar">
+						<div class="inner">
+                            <a href="{{ route('register') }}" class="button big" style="width: 200px;">
+                                Regisztráció
+                            </a>
+                        <br>
+						@if (Auth::check())
+						    <form method="POST" action="{{ route('logout') }}" >
+								@csrf
+                            	<button type="submit" class="button big" style="width: 200px;">Kijelentkezés</button>
+							</form>
+						@else
+							<a href="{{ route('login') }}" class="button big" style="width: 200px;">
+                                Bejelentkezés
+                            </a>
+						@endif
+
     <!-- Oldalsó menü -->
     <div id="sidebar">
         <div class="inner">
@@ -83,10 +101,10 @@
                         <li><a href="{{ url('/crud') }}">CRUD</a></li>
                     @endif
 
-                    @guest
+<!--                     @guest
                         <li><a href="{{ route('login') }}">Bejelentkezés</a></li>
                         <li><a href="{{ route('register') }}">Regisztráció</a></li>
-                    @endguest
+                    @endguest -->
 
                     @auth
                         <li><a href="{{ route('dashboard') }}">Vezérlőpult</a></li>
@@ -122,6 +140,7 @@
             <footer id="footer">
                 <p class="copyright">
                     &copy; Pöpec Pizza. Minden jog fenntartva.
+                    Projektfeladatot készítette: <br> Laucsik Dominik (DILLSZ) <br> Sztroka Alexandra Laura (G34R4F)
                 </p>
             </footer>
 
