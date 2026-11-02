@@ -155,6 +155,7 @@
             <footer id="footer">
                 <p class="copyright">
                     &copy; Pöpec Pizza. Minden jog fenntartva.
+                    Projektfeladatot készítette: <br> Laucsik Dominik (DILLSZ) <br> Sztroka Alexandra Laura (G34R4F)
                 </p>
             </footer>
 

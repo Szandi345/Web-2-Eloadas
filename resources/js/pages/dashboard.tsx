@@ -18,7 +18,12 @@ export default function Dashboard() {
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
                 <div className="grid auto-rows-min gap-4 md:grid-cols-3">
                     <div className="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-                        <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
+                           <img src="/images/pic01.jpg" alt="Pizza" className="h-full w-full object-cover"/>
+                                <div className="absolute inset-0 flex items-center justify-center bg-black/40">
+                                    <a href="/" className="bg-green-600 px-10 py-5">
+                                        Főoldal
+                                    </a>
+                                </div>
                     </div>
                     <div className="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
                         <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />

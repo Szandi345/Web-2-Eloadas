@@ -9,10 +9,13 @@ use App\Http\Controllers\DiagramController;
 use App\Http\Controllers\PizzaCrudController;
 use Illuminate\Http\Request;
 
-Route::get('/', function () { return view('pizzamain'); });
+Route::get('/', function () { return view('pizzamain'); })->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('dashboard', function () {return Inertia::render('dashboard');})->name('dashboard');
+    //Route::get('/', function () { return view('pizzamain'); })->name('home');
+    //Route::get('dashboard', function () {return Inertia::render('dashboard');})->name('dashboard');
+    Route::get('dashboard', function () { return Inertia::render('dashboard');})->name('dashboard');
+
     Route::get('user', function () { return view('user'); })->name("user");
     Route::get('admin', 'App\Http\Controllers\AdminController@adminPage');
 });

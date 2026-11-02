@@ -77,6 +77,10 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                             <TextLink href={register()} tabIndex={5}>
                                 Regisztráljon
                             </TextLink>
+                            <TextLink href="/" tabIndex={5}>
+                                    <br></br><br></br>
+                                Vagy folytatás vendégként
+                            </TextLink>
                         </div>
                     </>
                 )}
