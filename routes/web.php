@@ -52,4 +52,14 @@ Route::middleware(['auth', 'admin'])->group(function () {
     // Új pizza mentése
     Route::post('/crud', [PizzaCrudController::class, 'store'])
         ->name('crud.store');
+
+    // Meglévő pizza szerkesztése
+    Route::get('/crud/{id}/edit', [PizzaCrudController::class, 'edit'])
+        ->whereNumber('id')
+        ->name('crud.edit');
+        
+    // Pizza módosításának mentése
+    Route::put('/crud/{id}', [PizzaCrudController::class, 'update'])
+        ->whereNumber('id')
+        ->name('crud.update');
 });

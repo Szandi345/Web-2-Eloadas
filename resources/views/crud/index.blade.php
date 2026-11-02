@@ -43,26 +43,32 @@
                                 <th>Pizza neve</th>
                                 <th>Kategória</th>
                                 <th>Vegetáriánus</th>
+                                <th>Műveletek</th>
                             </tr>
                         </thead>
-
                         <tbody>
                             @forelse ($pizzak as $pizza)
-                                <tr>
-                                    <td>{{ $pizza->pizzaid }}</td>
-                                    <td>{{ $pizza->nev }}</td>
-                                    <td>{{ $pizza->kategorianev }}</td>
-                                    <td>
-                                        {{ $pizza->vegetarianus ? 'Igen' : 'Nem' }}
-                                    </td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="4">
-                                        Nincs pizza az adatbázisban.
-                                    </td>
-                                </tr>
-                            @endforelse
+                            <tr>
+                                <td>{{ $pizza->pizzaid }}</td>
+                                <td>{{ $pizza->nev }}</td>
+                                <td>{{ $pizza->kategorianev }}</td>
+                                <td>
+                                     {{ $pizza->vegetarianus ? 'Igen' : 'Nem' }}
+                                </td>
+                                <td>
+                                    <a href="{{ route('crud.edit', $pizza->pizzaid) }}"
+                                    class="button small">
+                                        Szerkesztés
+                                    </a>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="5">
+                                    Nincs pizza az adatbázisban.
+                                </td>
+                            </tr>
+                        @endforelse
                         </tbody>
                     </table>
                 </div>
