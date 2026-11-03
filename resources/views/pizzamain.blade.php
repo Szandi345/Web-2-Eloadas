@@ -42,7 +42,7 @@
 										</header>
 										<p>2024-i nyitásunk óta több mint 20,000 vendéget kiszolgáltunk az autentikus, nápolyi stílusú pizzáinkal. Te is megkóstolod?</p>
 										<ul class="actions">
-											<li><a href="#" class="button big">RENDELJ MOST!</a></li>
+											<li><a href="{{ route('rendeles.create') }}" class="button big">RENDELJ MOST!</a>
 										</ul>
 									</div>
 									<span class="image object">
