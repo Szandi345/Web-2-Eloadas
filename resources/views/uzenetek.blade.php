@@ -102,11 +102,13 @@
                     <li><a href="{{ route('kapcsolat') }}">Kapcsolat</a></li>
 
                     @auth
-                        <li>
-                            <a href="{{ route('uzenetek') }}">
-                                Üzenetek
-                            </a>
-                        </li>
+                        @if(auth()->user()->role == 1)
+                            <li>
+                                <a href="{{ route('uzenetek') }}">
+                                    Üzenetek
+                                </a>
+                            </li>
+                        @endif
                     @endauth
 
                     <li><a href="{{ url('/diagram') }}">Diagram</a></li>
