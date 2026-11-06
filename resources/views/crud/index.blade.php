@@ -1,135 +1,160 @@
-<!DOCTYPE HTML>
+
+<!DOCTYPE html>
 <html lang="hu">
 <head>
-    <title>Pizza CRUD - Pöpec Pizza</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pöpec Pizza – Adminisztráció</title>
 
-    <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: #d35400;
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 25px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #d35400;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .gomb {
+            display: inline-block;
+            padding: 10px 15px;
+            margin: 5px;
+            color: white;
+            text-decoration: none;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .uj { background-color: #27ae60; }
+        .szerkeszt { background-color: #2980b9; }
+        .torol { background-color: #c0392b; }
+        .rendeles { background-color: #d35400; }
+        .vissza { background-color: #555; }
+
+        .tabla {
+            overflow-x: auto;
+        }
+    </style>
 </head>
+<body>
 
-<body class="is-preload">
+<div class="container">
 
-<div id="wrapper">
+    <h1>🍕 Pöpec Pizza – Adminisztráció (CRUD)</h1>
 
-    <div id="main">
-        <div class="inner">
+    @if(session('success'))
+        <p style="color: green; font-weight: bold;">
+            {{ session('success') }}
+        </p>
+    @endif
 
-            <header id="header">
-                <a href="/" class="logo">
-                    <strong>Pöpec Pizza</strong> - Adminisztráció
-                </a>
-            </header>
+    @if(session('error'))
+        <p style="color: red; font-weight: bold;">
+            {{ session('error') }}
+        </p>
+    @endif
 
-            <section>
-                <header class="major">
-                    <h2>🍕 Pizzák kezelése (CRUD)</h2>
-                </header>
-                @if (session('success'))
-                    <div style="color: green; font-weight: bold; margin-bottom: 20px;">
-                        {{ session('success') }}
-                    </div>
-                @endif
-                @if (session('error'))
-                    <div style="
-                        background-color: #f8d7da; color: red; padding: 15px, margin-bottom: 20px; border: 1px solid #f5c6cb; border-radius: 5px;
-                    ">
-                        <strong>Hiba!</strong>
-                        {{ session('error') }}
-                    </div>
-                @endif
-                <p>
-                    Ezen az oldalon az adminisztrátor kezelheti
-                    az adatbázisban található pizzákat.
-                </p>
+    <a href="{{ route('crud.create') }}" class="gomb uj">
+        + Új pizza hozzáadása
+    </a>
 
-                <div class="table-wrapper">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Azonosító</th>
-                                <th>Pizza neve</th>
-                                <th>Kategória</th>
-                                <th>Vegetáriánus</th>
-                                <th>Műveletek</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse ($pizzak as $pizza)
-                            <tr>
-                                <td>{{ $pizza->pizzaid }}</td>
-                                <td>{{ $pizza->nev }}</td>
-                                <td>{{ $pizza->kategorianev }}</td>
-                                <td>
-                                     {{ $pizza->vegetarianus ? 'Igen' : 'Nem' }}
-                                </td>
-                                <td>
-                                    <!-- Szerkesztés gomb -->
-                                    <a href="{{ route('crud.edit', $pizza->pizzaid) }}"
-                                    class="button small">
-                                        Szerkesztés
-                                    </a>
+    <a href="{{ route('admin.rendelesek') }}" class="gomb rendeles">
+        📋 Beérkezett rendelések
+    </a>
 
-                                    <!-- Törlés gomb -->
-                                    <form action="{{ route('crud.destroy', $pizza->pizzaid) }}"
-                                        method="POST"
-                                        style="display: inline-block;"
-                                        onsubmit="return confirm('Biztosan törölni szeretnéd ezt a pizzát?');">
+    <a href="{{ route('home') }}" class="gomb vissza">
+    Vissza a főoldalra
+    </a>
 
-                                        @csrf
-                                        @method('DELETE')
+    <div class="tabla">
+        <table>
+            <thead>
+                <tr>
+                    <th>Pizza ID</th>
+                    <th>Pizza neve</th>
+                    <th>Kategória</th>
+                    <th>Vegetáriánus</th>
+                    <th>Műveletek</th>
+                </tr>
+            </thead>
 
-                                        <button type="submit" class="button small">
-                                            Törlés
-                                        </button>
-                                    </form>
-                                </td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="5">
-                                    Nincs pizza az adatbázisban.
-                                </td>
-                            </tr>
-                        @endforelse
-                        </tbody>
-                    </table>
-                </div>
+            <tbody>
+                @forelse($pizzak as $pizza)
+                    <tr>
+                        <td>{{ $pizza->pizzaid }}</td>
+                        <td>{{ $pizza->nev }}</td>
+                        <td>{{ $pizza->kategorianev }}</td>
+                        <td>
+                            {{ $pizza->vegetarianus ? 'Igen' : 'Nem' }}
+                        </td>
+                        <td>
+                            <a href="{{ route('crud.edit', $pizza->pizzaid) }}"
+                               class="gomb szerkeszt">
+                                Szerkesztés
+                            </a>
 
-            </section>
+                            <form action="{{ route('crud.destroy', $pizza->pizzaid) }}"
+                                  method="POST"
+                                  style="display:inline;"
+                                  onsubmit="return confirm('Biztosan törölni szeretnéd ezt a pizzát?');">
 
-        </div>
-    </div>
+                                @csrf
+                                @method('DELETE')
 
-    <div id="sidebar">
-        <div class="inner">
-
-            <nav id="menu">
-                <header class="major">
-                    <h2>Menü</h2>
-                </header>
-
-                <ul>
-                    <li><a href="/">Főoldal</a></li>
-                    <li><a href="/kategoriaread">Kategóriák</a></li>
-                    <li><a href="/pizzaread">Pizzák</a></li>
-                    <li><a href="/rendelesread">Rendelések</a></li>
-                    <li><a href="/kapcsolat">Kapcsolat</a></li>
-                    <li><a href="/diagram">Diagram</a></li>
-                    <li><a href="/crud">CRUD</a></li>
-                </ul>
-            </nav>
-
-        </div>
+                                <button type="submit" class="gomb torol">
+                                    Törlés
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="5">
+                            Nincs megjeleníthető pizza.
+                        </td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
     </div>
 
 </div>
-
-<script src="{{ asset('assets/js/jquery.min.js') }}"></script>
-<script src="{{ asset('assets/js/browser.min.js') }}"></script>
-<script src="{{ asset('assets/js/breakpoints.min.js') }}"></script>
-<script src="{{ asset('assets/js/util.js') }}"></script>
-<script src="{{ asset('assets/js/main.js') }}"></script>
 
 </body>
 </html>

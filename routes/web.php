@@ -2,23 +2,24 @@
 
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-use App\Http\Middleware\Auth2;
 use App\Http\Controllers\KapcsolatController;
 use App\Http\Controllers\UzenetController;
 use App\Http\Controllers\DiagramController;
 use App\Http\Controllers\PizzaCrudController;
 use App\Http\Controllers\RendelesController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\AdminRendelesController;
 
 Route::get('/', function () { return view('pizzamain'); })->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    //Route::get('/', function () { return view('pizzamain'); })->name('home');
-    //Route::get('dashboard', function () {return Inertia::render('dashboard');})->name('dashboard');
-    Route::get('dashboard', function () { return Inertia::render('dashboard');})->name('dashboard');
+    Route::get('dashboard', function () {
+        return Inertia::render('dashboard');
+    })->name('dashboard');
 
-    Route::get('user', function () { return view('user'); })->name("user");
-    Route::get('admin', 'App\Http\Controllers\AdminController@adminPage');
+    Route::get('user', function () {
+        return view('user');
+    })->name('user');
+    
 });
 
 require __DIR__.'/settings.php';
@@ -28,13 +29,15 @@ Route::get('exercise1', function () { return view('view1'); });
 Route::get('introduction', function () { return view('introduction'); });
 Route::get('kategoriaread', 'App\Http\Controllers\KategoriaController@read');
 Route::get('pizzaread', 'App\Http\Controllers\PizzaController@read');
-Route::get('rendelesread', 'App\Http\Controllers\RendelesController@read');
+Route::get('/rendelesread', [RendelesController::class, 'read'])
+    ->middleware('auth')
+    ->name('rendeles.read');
 Route::get('/kapcsolat', [KapcsolatController::class, 'index'])
     ->name('kapcsolat');
 Route::post('/kapcsolat', [KapcsolatController::class, 'kuldes'])
     ->name('kapcsolat.kuldes');
 Route::get('/uzenetek', [UzenetController::class, 'index'])
-    ->middleware('auth')
+    ->middleware(['auth', 'admin'])
     ->name('uzenetek');
 Route::get('/diagram', [DiagramController::class, 'index'])
     ->name('diagram');
@@ -52,8 +55,9 @@ Route::middleware(['auth'])->group(function () {
 
     // Leadott rendelés visszaigazolása
     Route::get('/rendeles/{id}', [RendelesController::class, 'show'])
-        ->whereNumber('id')
-        ->name('rendeles.show');});
+    ->whereNumber('id')
+    ->name('rendeles.show');
+    });
 
 // CRUD - Adminisztrátori hozzáférés
 Route::middleware(['auth', 'admin'])->group(function () {
@@ -84,4 +88,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::delete('/crud/{id}', [PizzaCrudController::class, 'destroy'])
         ->whereNumber('id')
         ->name('crud.destroy');
+    
+    // Admin rendeléskezelés
+    Route::get('/admin/rendelesek', [AdminRendelesController::class, 'index'])
+        ->name('admin.rendelesek');
 });

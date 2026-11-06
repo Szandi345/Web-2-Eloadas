@@ -164,14 +164,6 @@
                                 Bejelentkezés
                             </a>
 						@endif
-
-							<!-- Search -->
-<!-- 								<section id="search" class="alt">
-									<form method="post" action="#">
-										<input type="text" name="query" id="query" placeholder="Search" />
-									</form>
-								</section> -->
-
 							<!-- Menu -->
 								<nav id="menu">
 									<header class="major">
@@ -179,6 +171,10 @@
 									</header>
 									<ul>
 										<li><a href="/">Főoldal</a></li>
+										@auth
+										<li><a href="{{ route('rendeles.read') }}">Saját rendeléseim</a>
+										</li>
+										@endauth
 										<li>
 											<span class="opener">Adatbázis</span>
 											<ul>
@@ -188,40 +184,27 @@
 											</ul>
 										</li>
 										<li><a href="kapcsolat">Kapcsolat</a></li>
-										<!-- <li>
-											<span class="opener">Submenu</span>
-											<ul>
-												<li><a href="#">Lorem Dolor</a></li>
-												<li><a href="#">Ipsum Adipiscing</a></li>
-												<li><a href="#">Tempus Magna</a></li>
-												<li><a href="#">Feugiat Veroeros</a></li>
-											</ul>
-										</li> -->
-                                        @if (Auth::check())
-										    <li><a href="uzenetek">Üzenetek</a></li>
-                                        @endif                                 
+										
+                                        @auth
+											@if(auth()->user()->role == 1)
+												<li>
+													<a href="{{ route('uzenetek') }}">
+														Üzenetek
+													</a>
+												</li>
+											@endif
+										@endauth                              
                                         <li><a href="diagram">Diagram</a></li>
                                         @if (Auth::check())
                                          @if (Auth::User()->role==1)
-										    <li><a href="crud">Pizzák kezelése (CRUD)</a></li>   
+										    <li><a href="{{ route('crud.index') }}">🍕 Pizzák kezelése (CRUD)</a>
+											</li>
+
+											<li><a href="{{ route('admin.rendelesek') }}">📋 Beérkezett rendelések</a>
+											</li>   
                                          @endif
                                         @endif
-								<!-- 		<li>
-										<li><a href="diagram">Diagram</a></li>
-                                        @auth
-                                             @if (auth()->user()->role === 'admin')
-                                            <li><a href="{{ url('/crud') }}">CRUD menü</a></li>
-                                         @endif
-                                        @endauth
-	                                    <li>
-											<span class="opener">Another Submenu</span>
-											<ul>
-												<li><a href="#">Lorem Dolor</a></li>
-												<li><a href="#">Ipsum Adipiscing</a></li>
-												<li><a href="#">Tempus Magna</a></li>
-												<li><a href="#">Feugiat Veroeros</a></li>
-											</ul>
-										</li> -->
+								
 									</ul>
 								</nav>
 
@@ -254,7 +237,7 @@
 									<header class="major">
 										<h2>Adataink</h2>
 									</header>
-									<!-- <p>Sed varius enim lorem ullamcorper dolore aliquam aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin sed aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p> -->
+									
 									<ul class="contact">
 										<li class="icon solid fa-envelope"><a href="#">popecpizza@gmail.com</a></li>
 										<li class="icon solid fa-phone">+36 01 123 4567</li>

@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Rendeles;
@@ -9,15 +8,25 @@ use App\Models\Rendeles;
 class RendelesController extends Controller
 {
     // Meglévő rendelések listázása
-    public function read()
-    {
-        foreach (Rendeles::all() as $rendeles) {
-            echo $rendeles->pizzaid . "<br>";
-            echo $rendeles->darab . "<br>";
-            echo $rendeles->felvetel . "<br>";
-            echo $rendeles->kiszallitas . "<br>";
-            echo $rendeles . "<br>";
-        }
+    public function read(){
+        $rendelesek = DB::table('rendeles')
+            ->join('pizza', 'rendeles.pizzaid', '=', 'pizza.pizzaid')
+            ->join('kategoria', 'pizza.kategoriaid', '=', 'kategoria.kategoriaid')
+            ->select(
+                'rendeles.rendelesid',
+                'rendeles.darab',
+                'rendeles.felvetel',
+                'rendeles.allapot',
+                'pizza.nev as pizzanev',
+                'kategoria.nev as kategorianev',
+                'rendeles.egysegar')
+            ->selectRaw(
+                'COALESCE(rendeles.egysegar, kategoria.ar) as ar')
+            ->where('rendeles.user_id', auth()->id())
+            ->orderByDesc('rendeles.felvetel')
+            ->get();
+
+        return view('rendeles.index', compact('rendelesek'));
     }
 
     // Új rendelés űrlapjának megjelenítése
@@ -43,9 +52,10 @@ class RendelesController extends Controller
         // Rendelési űrlap megjelenítése
         return view('rendeles.create', compact('pizzak'));
     }
+
     // Új rendelés mentése
     public function store(Request $request){
-        // Adatok ellenőrzése
+        // Beküldött adatok ellenőrzése
         $adatok = $request->validate([
             'pizzaid' => 'required|integer|exists:pizza,pizzaid',
             'darab' => 'required|integer|min:1|max:100',
@@ -58,11 +68,26 @@ class RendelesController extends Controller
             'darab.max' => 'Egyszerre legfeljebb 100 pizzát rendelhetsz!',
         ]);
 
-        // Rendelés mentése az adatbázisba
+        // Pizza aktuális árának lekérdezése
+        $pizza = DB::table('pizza')
+            ->join('kategoria', 'pizza.kategoriaid', '=', 'kategoria.kategoriaid')
+            ->select('kategoria.ar')
+            ->where('pizza.pizzaid', $adatok['pizzaid'])
+            ->first();
+
+        // Ha a pizza időközben törlődött
+        if (!$pizza) {
+            return back()->withErrors([
+                'pizzaid' => 'A kiválasztott pizza már nem elérhető!'
+            ])->withInput();
+        }
+
+        // Rendelés mentése az egységárral együtt
         $rendelesId = DB::table('rendeles')->insertGetId([
             'pizzaid' => $adatok['pizzaid'],
             'darab' => $adatok['darab'],
             'user_id' => auth()->id(),
+            'egysegar' => $pizza->ar,
             'felvetel' => now(),
             'kiszallitas' => null,
             'created_at' => now(),
@@ -70,11 +95,12 @@ class RendelesController extends Controller
         ], 'rendelesid');
 
         // Átirányítás a visszaigazoló oldalra
-        return redirect()->route('rendeles.show', $rendelesId);}
+        return redirect()->route('rendeles.show', $rendelesId);
+    }
 
-        // Leadott rendelés visszaigazolása
+       // Leadott rendelés visszaigazolása
     public function show($id){
-        // Rendelés lekérdezése a pizza és a kategória adataival
+        // Rendelés lekérdezése
         $rendeles = DB::table('rendeles')
             ->join('pizza', 'rendeles.pizzaid', '=', 'pizza.pizzaid')
             ->join('kategoria', 'pizza.kategoriaid', '=', 'kategoria.kategoriaid')
@@ -85,24 +111,28 @@ class RendelesController extends Controller
                 'rendeles.felvetel',
                 'pizza.nev as pizzanev',
                 'kategoria.nev as kategorianev',
+                'rendeles.egysegar',
                 'kategoria.ar'
             )
             ->where('rendeles.rendelesid', $id)
             ->first();
 
-        // Ha a rendelés nem létezik
+        // Nem létező rendelés ellenőrzése
         if (!$rendeles) {
-            abort(404, 'A keresett rendelés nem található!');
+            abort(404, 'A rendelés nem található!');
         }
 
-        // Csak a rendelést leadó felhasználó láthatja
+        // Jogosultság ellenőrzése
         if ((int) $rendeles->user_id !== (int) auth()->id()) {
             abort(403, 'Nincs jogosultságod megtekinteni ezt a rendelést!');
         }
 
+        // Mentett ár használata, régi rendelésnél aktuális ár
+        $rendeles->ar = $rendeles->egysegar ?? $rendeles->ar;
+
         // Végösszeg kiszámítása
         $vegosszeg = $rendeles->ar * $rendeles->darab;
 
-        // Visszaigazoló oldal megjelenítése
-        return view('rendeles.show', compact('rendeles', 'vegosszeg'));}
+        return view('rendeles.show', compact('rendeles', 'vegosszeg'));
+    }
 }

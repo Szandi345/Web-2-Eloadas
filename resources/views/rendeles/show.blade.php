@@ -78,6 +78,21 @@
                                 <td><strong>Rendelés időpontja</strong></td>
                                 <td>{{ $rendeles->felvetel }}</td>
                             </tr>
+                            
+                            <tr>
+                                <td><strong>Rendelés állapota</strong></td>
+                                <td>
+                                    @if(\Carbon\Carbon::parse($rendeles->felvetel)->addMinutes(15)->isPast())
+                                        <strong style="color: green;">
+                                            Kiszállítva
+                                        </strong>
+                                    @else
+                                        <strong style="color: orange;">
+                                            Megrendelve
+                                        </strong>
+                                    @endif
+                                </td>
+                            </tr>
 
                             <tr>
                                 <td><strong>Fizetendő összeg</strong></td>
@@ -97,7 +112,11 @@
                 <h3>Köszönjük, hogy minket választottál! ❤️</h3>
 
                 <p>
-                    Rendelésed feldolgozás alatt áll.
+                    @if(\Carbon\Carbon::parse($rendeles->felvetel)->addMinutes(15)->isPast())
+                        🍕 Rendelésed kiszállítva! Jó étvágyat kívánunk!
+                    @else
+                        🍕 Rendelésedet megkaptuk! Hamarosan kiszállítjuk. (15perc)
+                    @endif
                 </p>
 
                 <ul class="actions">
