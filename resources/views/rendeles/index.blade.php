@@ -1,26 +1,5 @@
 <!DOCTYPE HTML>
 <html lang="hu">
-    <style>
-        select {
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            margin-bottom: 8px;
-        }
-
-        .mentes {
-            padding: 8px 14px;
-            background-color: #27ae60;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .mentes:hover {
-            background-color: #219150;
-        }
-    </style>
 <head>
     <title>Saját rendeléseim - Pöpec Pizza</title>
     <meta charset="utf-8" />

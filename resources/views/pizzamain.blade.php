@@ -22,7 +22,11 @@
 
 							<!-- Header -->
 								<header id="header">
-									<a href="index.html" class="logo"><strong>Pöpec Pizza</strong></a>
+									
+								<a href="{{ route('home') }}" class="logo">
+									<strong>Pöpec Pizza</strong>
+								</a>
+
 									<ul class="icons">
 										<li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
 										<li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
@@ -150,20 +154,34 @@
 				<!-- Sidebar -->
 					<div id="sidebar">
 						<div class="inner">
-                            <a href="{{ route('register') }}" class="button big" style="width: 200px;">
-                                Regisztráció
-                            </a>
-                        <br>
-						@if (Auth::check())
-						    <form method="POST" action="{{ route('logout') }}" >
+						@guest
+							<a href="{{ route('register') }}"
+							class="button big"
+							style="width: 200px;">
+								Regisztráció
+							</a>
+
+							<br>
+
+							<a href="{{ route('login') }}"
+							class="button big"
+							style="width: 200px;">
+								Bejelentkezés
+							</a>
+						@endguest
+
+						@auth
+							<form method="POST" action="{{ route('logout') }}">
 								@csrf
-                            	<button type="submit" class="button big" style="width: 200px;">Kijelentkezés</button>
+
+								<button type="submit"
+										class="button big"
+										style="width: 200px;">
+									Kijelentkezés
+								</button>
 							</form>
-						@else
-							<a href="{{ route('login') }}" class="button big" style="width: 200px;">
-                                Bejelentkezés
-                            </a>
-						@endif
+						@endauth
+
 							<!-- Menu -->
 								<nav id="menu">
 									<header class="major">

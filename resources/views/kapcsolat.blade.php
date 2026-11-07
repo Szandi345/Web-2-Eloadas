@@ -67,7 +67,7 @@
                             <label for="nev">Név</label>
                             <input
                                 type="text"
-                                name="nev"
+                                name="nev" required maxlength="100"
                                 id="nev"
                                 value="{{ old('nev') }}"
                                 placeholder="Teljes neved"
@@ -78,7 +78,7 @@
                             <label for="email">E-mail cím</label>
                             <input
                                 type="email"
-                                name="email"
+                                name="email" required maxlength="150"
                                 id="email"
                                 value="{{ old('email') }}"
                                 placeholder="pelda@email.com"
@@ -89,7 +89,7 @@
                             <label for="targy">Tárgy</label>
                             <input
                                 type="text"
-                                name="targy"
+                                name="targy" required maxlength="200"
                                 id="targy"
                                 value="{{ old('targy') }}"
                                 placeholder="Üzenet tárgya"
@@ -99,7 +99,7 @@
                         <div class="field">
                             <label for="uzenet">Üzenet</label>
                             <textarea
-                                name="uzenet"
+                                name="uzenet" required minlength="10" maxlength="2000"
                                 id="uzenet"
                                 rows="6"
                                 placeholder="Ide írd az üzeneted..."
@@ -125,20 +125,23 @@
     <!-- Oldalsáv -->
     <div id="sidebar">
         <div class="inner">
-
-            <a href="{{ route('register') }}"
-               class="button big"
-               style="width: 200px;">
-                Regisztráció
-            </a>
-
             <br>
 
-            <a href="{{ route('login') }}"
-               class="button big"
-               style="width: 200px;">
-                Bejelentkezés
-            </a>
+            @guest
+                <a href="{{ route('register') }}"
+                class="button big"
+                style="width: 200px;">
+                    Regisztráció
+                </a>
+
+                <br>
+
+                <a href="{{ route('login') }}"
+                class="button big"
+                style="width: 200px;">
+                    Bejelentkezés
+                </a>
+            @endguest
 
             <nav id="menu">
                 <header class="major">
@@ -158,10 +161,16 @@
                     </li>
 
                     <li><a href="{{ route('kapcsolat') }}">Kapcsolat</a></li>
-
-                    @if(Auth::check())
-                        <li><a href="/uzenetek">Üzenetek</a></li>
-                    @endif
+                 
+                    @auth
+                        @if(auth()->user()->role == 1)
+                            <li>
+                                <a href="{{ route('uzenetek') }}">
+                                    Beérkezett üzenetek
+                                </a>
+                            </li>
+                        @endif
+                    @endauth
 
                     <li><a href="/diagram">Diagram</a></li>
 
