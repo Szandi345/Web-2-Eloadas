@@ -128,20 +128,31 @@
             <br>
 
             @guest
-                <a href="{{ route('register') }}"
-                class="button big"
-                style="width: 200px;">
-                    Regisztráció
-                </a>
+				<a href="{{ route('register') }}"
+				class="button big"
+				style="width: 200px;">
+				Regisztráció
+			    </a>
 
-                <br>
+				<br>
 
-                <a href="{{ route('login') }}"
-                class="button big"
-                style="width: 200px;">
-                    Bejelentkezés
-                </a>
-            @endguest
+				<a href="{{ route('login') }}"
+				class="button big"
+				style="width: 200px;">
+				Bejelentkezés
+				</a>
+			@endguest
+
+			@auth
+				<form method="POST" action="{{ route('logout') }}">
+					@csrf
+                        <button type="submit"
+							class="button big"
+							style="width: 200px;">
+							Kijelentkezés
+						</button>
+				</form>
+			@endauth
 
             <nav id="menu">
                 <header class="major">
@@ -159,14 +170,12 @@
                             <li><a href="/rendelesread">Rendelés tábla</a></li>
                         </ul>
                     </li>
-
-                    <li><a href="{{ route('kapcsolat') }}">Kapcsolat</a></li>
                  
                     @auth
                         @if(auth()->user()->role == 1)
                             <li>
                                 <a href="{{ route('uzenetek') }}">
-                                    Beérkezett üzenetek
+                                    Üzenetek
                                 </a>
                             </li>
                         @endif
@@ -174,8 +183,12 @@
 
                     <li><a href="/diagram">Diagram</a></li>
 
-                    @if(Auth::check() && Auth::user()->role == 1)
-                        <li><a href="/crud">CRUD Menü</a></li>
+                    @if (Auth::check())
+                        @if (Auth::User()->role==1)
+						<li><a href="{{ route('crud.index') }}">🍕 Pizzák kezelése (CRUD)</a></li>
+
+						<li><a href="{{ route('admin.rendelesek') }}">📋 Beérkezett rendelések</a></li>   
+                         @endif
                     @endif
                 </ul>
             </nav>

@@ -188,7 +188,6 @@
 										<h2>Menü</h2>
 									</header>
 									<ul>
-										<li><a href="/">Főoldal</a></li>
 										@auth
 										<li><a href="{{ route('rendeles.read') }}">Saját rendeléseim</a>
 										</li>

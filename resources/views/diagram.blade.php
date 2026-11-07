@@ -48,69 +48,80 @@
         </div>
     </div>
 
-    				<!-- Sidebar -->
-					<div id="sidebar">
+    			<!-- Sidebar -->
+				<div id="sidebar">
 						<div class="inner">
-                            <a href="{{ route('register') }}" class="button big" style="width: 200px;">
-                                Regisztráció
-                            </a>
-                        <br>
-						@if (Auth::check())
-						    <form method="POST" action="{{ route('logout') }}" >
+						@guest
+							<a href="{{ route('register') }}"
+							class="button big"
+							style="width: 200px;">
+								Regisztráció
+							</a>
+
+							<br>
+
+							<a href="{{ route('login') }}"
+							class="button big"
+							style="width: 200px;">
+								Bejelentkezés
+							</a>
+						@endguest
+
+						@auth
+							<form method="POST" action="{{ route('logout') }}">
 								@csrf
-                            	<button type="submit" class="button big" style="width: 200px;">Kijelentkezés</button>
+
+								<button type="submit"
+										class="button big"
+										style="width: 200px;">
+									Kijelentkezés
+								</button>
 							</form>
-						@else
-							<a href="{{ route('login') }}" class="button big" style="width: 200px;">
-                                Bejelentkezés
-                            </a>
-						@endif
+						@endauth
 
-    <!-- Oldalsó menü -->
-    <div id="sidebar">
-        <div class="inner">
+							<!-- Menu -->
+								<nav id="menu">
+									<header class="major">
+										<h2>Menü</h2>
+									</header>
+									<ul>
+										<li><a href="/">Főoldal</a></li>
+										@auth
+										<li><a href="{{ route('rendeles.read') }}">Saját rendeléseim</a>
+										</li>
+										@endauth
+										<li>
+											<span class="opener">Adatbázis</span>
+											<ul>
+												<li><a href="kategoriaread">Kategória tábla</a></li>
+												<li><a href="pizzaread">Pizza tábla</a></li>
+												<li><a href="rendelesread">Rendelés tábla</a></li>
+											</ul>
+										</li>
+										<li><a href="kapcsolat">Kapcsolat</a></li>
+										
+                                        @auth
+											@if(auth()->user()->role == 1)
+												<li>
+													<a href="{{ route('uzenetek') }}">
+														Üzenetek
+													</a>
+												</li>
+											@endif
+										@endauth                              
+                                        
+                                        @if (Auth::check())
+                                         @if (Auth::User()->role==1)
+										    <li><a href="{{ route('crud.index') }}">🍕 Pizzák kezelése (CRUD)</a>
+											</li>
 
-            <nav id="menu">
-                <header class="major">
-                    <h2>Menü</h2>
-                </header>
-
-                <ul>
-                    <li><a href="{{ url('/') }}">Főoldal</a></li>
-
-                    <li>
-                        <span class="opener">Adatbázis</span>
-                        <ul>
-                            <li><a href="{{ url('/kategoriaread') }}">Kategóriák</a></li>
-                            <li><a href="{{ url('/pizzaread') }}">Pizzák</a></li>
-                            <li><a href="{{ url('/rendelesread') }}">Rendelések</a></li>
-                        </ul>
-                    </li>
-
-                    <li><a href="{{ route('kapcsolat') }}">Kapcsolat</a></li>
-
-                    @auth
-                        <li>
-                            <a href="{{ route('uzenetek') }}">Üzenetek</a>
-                        </li>
-                    @endauth
-
-                    <li><a href="{{ route('diagram') }}">Diagram</a></li>
-
-                    @if(Auth::check() && Auth::user()->role == 1)
-                        <li><a href="{{ url('/crud') }}">CRUD</a></li>
-                    @endif
-
-<!--                     @guest
-                        <li><a href="{{ route('login') }}">Bejelentkezés</a></li>
-                        <li><a href="{{ route('register') }}">Regisztráció</a></li>
-                    @endguest -->
-
-                    @auth
-                        <li><a href="{{ route('dashboard') }}">Vezérlőpult</a></li>
-                    @endauth
-                </ul>
-            </nav>
+											<li><a href="{{ route('admin.rendelesek') }}">📋 Beérkezett rendelések</a>
+											</li>   
+                                         @endif
+                                        @endif
+								
+									</ul>
+								</nav>
 
             <!-- Elérhetőségek -->
             <section>
